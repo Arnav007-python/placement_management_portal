@@ -74,8 +74,27 @@ if ($AppPython -eq $VenvPython) {
 Write-Host "Preparing demo database..."
 & $AppPython -c "from app import create_app; from app.bootstrap import ensure_admin_account; app=create_app(); ctx=app.app_context(); ctx.push(); ensure_admin_account(); print('Admin account is ready.')"
 
+$Port = if ($env:PORT) { $env:PORT } else { "5000" }
+$LanIp = (
+    Get-NetIPAddress -AddressFamily IPv4 -ErrorAction SilentlyContinue |
+        Where-Object {
+            $_.IPAddress -notlike "127.*" -and
+            $_.IPAddress -notlike "169.254.*" -and
+            $_.PrefixOrigin -ne "WellKnown"
+        } |
+        Select-Object -First 1 -ExpandProperty IPAddress
+)
+
 Write-Host ""
-Write-Host "Placement Portal is starting at http://127.0.0.1:5000"
+Write-Host "Placement Portal is starting."
+Write-Host "This laptop: http://127.0.0.1:$Port"
+if ($LanIp) {
+    Write-Host "Other laptops / mobile phones on the same Wi-Fi: http://$LanIp`:$Port"
+} else {
+    Write-Host "Could not detect a Wi-Fi/LAN IP address. Run ipconfig and use your IPv4 address with port $Port."
+}
 Write-Host "Keep this terminal open while showing the project."
 Write-Host ""
+$env:HOST = "0.0.0.0"
+$env:PORT = $Port
 & $AppPython run.py

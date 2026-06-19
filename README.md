@@ -34,6 +34,14 @@ Or double-click `start.bat`.
 
 Then open `http://127.0.0.1:5000`.
 
+To open the portal from another laptop or mobile phone, keep the server running and use the network URL printed by `start.ps1`, for example:
+
+```text
+http://192.168.1.10:5000
+```
+
+The other device must be connected to the same Wi-Fi/network. If Windows Firewall asks for permission, allow Python on private networks.
+
 ### Manual
 
 ```powershell
@@ -45,6 +53,18 @@ python run.py
 ```
 
 Open `http://127.0.0.1:5000`.
+
+For same-Wi-Fi mobile/laptop access, use your computer's IPv4 address:
+
+```powershell
+ipconfig
+```
+
+Then open:
+
+```text
+http://YOUR-IPV4-ADDRESS:5000
+```
 
 ## Demo Accounts
 
