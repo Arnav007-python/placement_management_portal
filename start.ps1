@@ -72,7 +72,7 @@ if ($AppPython -eq $VenvPython) {
 }
 
 Write-Host "Preparing demo database..."
-& $AppPython -c "from app import create_app; from app.seed import seed_database; app=create_app(); ctx=app.app_context(); ctx.push(); seed_database(); print('Demo database is ready.')"
+& $AppPython -c "from app import create_app; from app.bootstrap import ensure_admin_account; app=create_app(); ctx=app.app_context(); ctx.push(); ensure_admin_account(); print('Admin account is ready.')"
 
 Write-Host ""
 Write-Host "Placement Portal is starting at http://127.0.0.1:5000"

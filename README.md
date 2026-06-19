@@ -40,7 +40,7 @@ Then open `http://127.0.0.1:5000`.
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-python -c "from app import create_app; from app.seed import seed_database; app=create_app(); ctx=app.app_context(); ctx.push(); seed_database()"
+python -c "from app import create_app; from app.bootstrap import ensure_admin_account; app=create_app(); ctx=app.app_context(); ctx.push(); ensure_admin_account()"
 python run.py
 ```
 
@@ -48,7 +48,7 @@ Open `http://127.0.0.1:5000`.
 
 ## Demo Accounts
 
-After running `seed-db`:
+After running `start.ps1` or the manual admin setup command:
 
 | Role | Email | Password |
 | --- | --- | --- |
