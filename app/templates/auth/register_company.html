@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Company Registration · Placement Portal{% endblock %}
+{% block content %}
+<section class="form-page">
+    <form class="panel wide" method="post">
+        <h1>Company Registration</h1>
+        <div class="grid two">
+            <label>Company Name <input name="company_name" required></label>
+            <label>Contact Person <input name="contact_name" required></label>
+            <label>Email <input type="email" name="email" required></label>
+            <label>Password <input type="password" name="password" minlength="6" required></label>
+            <label>Industry <input name="industry" required></label>
+            <label>Website <input type="url" name="website" placeholder="https://example.com"></label>
+        </div>
+        <button type="submit">Submit for approval</button>
+    </form>
+</section>
+{% endblock %}

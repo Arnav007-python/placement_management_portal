@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard · Placement Portal{% endblock %}
+{% block content %}
+<section class="page-head">
+    <div>
+        <p class="eyebrow">Student dashboard</p>
+        <h1>Available Jobs</h1>
+    </div>
+    <div class="metric">{{ applications|length }} Applications</div>
+</section>
+
+<section class="profile-strip">
+    <strong>{{ profile.user.name }}</strong>
+    <span>{{ profile.department }}</span>
+    <span>{{ profile.graduation_year }}</span>
+    <span>CGPA {{ "%.2f"|format(profile.cgpa) }}</span>
+    <span>{{ profile.skills }}</span>
+</section>
+
+<section class="grid jobs">
+    {% for job in jobs %}
+        <article class="card">
+            <div class="card-head">
+                <div>
+                    <h2>{{ job.title }}</h2>
+                    <p>{{ job.company.company_name }} · {{ job.location }}</p>
+                </div>
+                <span class="badge">{{ job.package_lpa }} LPA</span>
+            </div>
+            <p>{{ job.description }}</p>
+            <p class="muted">Minimum CGPA: {{ job.min_cgpa }}</p>
+            {% if job.id in applied_job_ids %}
+                <button disabled>Applied</button>
+            {% else %}
+                <form method="post" action="{{ url_for('student.apply', job_id=job.id) }}" enctype="multipart/form-data">
+                    <label>Resume <input type="file" name="resume" accept=".pdf,.doc,.docx" required></label>
+                    <button type="submit">Apply</button>
+                </form>
+            {% endif %}
+        </article>
+    {% else %}
+        <p>No active jobs are available yet.</p>
+    {% endfor %}
+</section>
+
+<section class="panel">
+    <h2>My Applications</h2>
+    <table>
+        <thead><tr><th>Job</th><th>Company</th><th>Status</th><th>Resume</th></tr></thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.job.title }}</td>
+                    <td>{{ application.job.company.company_name }}</td>
+                    <td>{{ application.status }}</td>
+                    <td>{{ application.resume_filename }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">No applications submitted.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

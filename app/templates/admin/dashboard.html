@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard · Placement Portal{% endblock %}
+{% block content %}
+<section class="page-head">
+    <div>
+        <p class="eyebrow">Admin dashboard</p>
+        <h1>Placement Overview</h1>
+    </div>
+</section>
+
+<section class="stats">
+    {% for label, value in stats.items() %}
+        <div class="metric"><strong>{{ value }}</strong><span>{{ label|title }}</span></div>
+    {% endfor %}
+</section>
+
+<section class="panel">
+    <h2>Company Approvals</h2>
+    <table>
+        <thead><tr><th>Company</th><th>Contact</th><th>Industry</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+            {% for company in companies %}
+                <tr>
+                    <td>{{ company.company_name }}</td>
+                    <td>{{ company.user.email }}</td>
+                    <td>{{ company.industry }}</td>
+                    <td>{{ "Approved" if company.approved else "Pending" }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('admin.approval', company_id=company.id) }}" class="inline-form">
+                            <input type="hidden" name="approved" value="{{ 'false' if company.approved else 'true' }}">
+                            <button type="submit">{{ "Revoke" if company.approved else "Approve" }}</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel">
+    <h2>Jobs</h2>
+    <table>
+        <thead><tr><th>Title</th><th>Company</th><th>Package</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <td>{{ job.title }}</td>
+                    <td>{{ job.company.company_name }}</td>
+                    <td>{{ job.package_lpa }} LPA</td>
+                    <td>{{ "Active" if job.active else "Closed" }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('admin.toggle_job', job_id=job.id) }}">
+                            <button type="submit">Toggle</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel">
+    <h2>Applications</h2>
+    <table>
+        <thead><tr><th>Student</th><th>Job</th><th>Company</th><th>Status</th></tr></thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.student.user.name }}</td>
+                    <td>{{ application.job.title }}</td>
+                    <td>{{ application.job.company.company_name }}</td>
+                    <td>{{ application.status }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4">No applications yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

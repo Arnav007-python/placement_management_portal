@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Company Dashboard · Placement Portal{% endblock %}
+{% block content %}
+<section class="page-head">
+    <div>
+        <p class="eyebrow">Company dashboard</p>
+        <h1>{{ company.company_name }}</h1>
+        <p>{{ company.industry }} · {% if company.approved %}Approved{% else %}Pending approval{% endif %}</p>
+    </div>
+    <a class="button" href="{{ url_for('company.new_job') }}">Post job</a>
+</section>
+
+<section class="grid jobs">
+    {% for job in jobs %}
+        <article class="card">
+            <div class="card-head">
+                <div>
+                    <h2>{{ job.title }}</h2>
+                    <p>{{ job.location }} · {{ job.package_lpa }} LPA</p>
+                </div>
+                <span class="badge">{{ "Active" if job.active else "Closed" }}</span>
+            </div>
+            <p>{{ job.description }}</p>
+            <p class="muted">{{ job.applications|length }} applications</p>
+        </article>
+    {% else %}
+        <p>No jobs posted yet.</p>
+    {% endfor %}
+</section>
+
+<section class="panel">
+    <h2>Applications</h2>
+    <table>
+        <thead><tr><th>Student</th><th>Job</th><th>Resume</th><th>Status</th><th>Update</th></tr></thead>
+        <tbody>
+            {% for application in applications %}
+                <tr>
+                    <td>{{ application.student.user.name }}</td>
+                    <td>{{ application.job.title }}</td>
+                    <td>{{ application.resume_filename }}</td>
+                    <td>{{ application.status }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('company.update_application_status', application_id=application.id) }}" class="inline-form">
+                            <select name="status">
+                                {% for status in ["Applied", "Shortlisted", "Interview", "Selected", "Rejected"] %}
+                                    <option value="{{ status }}" {% if application.status == status %}selected{% endif %}>{{ status }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit">Save</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="5">No applications yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

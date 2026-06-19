@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Login · Placement Portal{% endblock %}
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">Campus recruitment system</p>
+        <h1>Placement Portal</h1>
+        <p>Students apply with resumes, companies manage openings, and admins track the full placement process.</p>
+    </div>
+    <form class="panel auth-panel" method="post">
+        <h2>Login</h2>
+        <label>Email <input type="email" name="email" required></label>
+        <label>Password <input type="password" name="password" required></label>
+        <button type="submit">Sign in</button>
+        <div class="split-links">
+            <a href="{{ url_for('auth.register_student') }}">Create student account</a>
+            <a href="{{ url_for('auth.register_company') }}">Register company</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
