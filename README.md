@@ -24,13 +24,24 @@ A complete final-year level placement portal built with Flask and SQLite.
 
 ## Quick Start
 
+### Windows
+
+```powershell
+.\start.ps1
+```
+
+Or double-click `start.bat`.
+
+Then open `http://127.0.0.1:5000`.
+
+### Manual
+
 ```powershell
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -r requirements.txt
-python -m flask --app app init-db
-python -m flask --app app seed-db
-python -m flask --app app run
+python -c "from app import create_app; from app.seed import seed_database; app=create_app(); ctx=app.app_context(); ctx.push(); seed_database()"
+python run.py
 ```
 
 Open `http://127.0.0.1:5000`.
