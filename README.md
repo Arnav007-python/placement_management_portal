@@ -101,6 +101,3 @@ tests/
 | `UPLOAD_FOLDER` | `uploads/resumes` | Resume storage directory |
 
 
-## Notes
-
-Uploaded resumes are stored under `uploads/resumes` by default. The directory is ignored by Git to avoid committing student documents.
