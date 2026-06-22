@@ -13,7 +13,14 @@ A complete final-year level placement portal built with Flask and SQLite.
 - SQLite persistence with seed data
 - Pytest test suite and GitHub Actions CI
 
+## Tech Stack
 
+- Python 3.11+
+- Flask
+- Flask-Login
+- Flask-SQLAlchemy
+- SQLite
+- Pytest
 
 ## Quick Start
 
