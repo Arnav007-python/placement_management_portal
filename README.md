@@ -1,4 +1,6 @@
+# Placement Management Portal
 
+A complete final-year level placement portal built with Flask and SQLite.
 
 ## Features
 
